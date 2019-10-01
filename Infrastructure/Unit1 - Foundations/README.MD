@@ -28,7 +28,7 @@ During this Lesson we'll go over the basics of computer infrastructure - Servers
 A [minecraft server](https://minecraft.gamepedia.com/Tutorials/Setting_up_a_server) requires just a handful of things to work correctly. The very first thing it needs is an actual server to run the software on.
 
 1. Log onto the [AWS Console](https://aws.amazon.com/console/)
-2. Select 'Launch a virtual machine` with EC2
+2. Select `Launch a virtual machine` with EC2
 3. The first selection involves picking the image (the operating system) we use to build the machine. In this instance we can select the `Amazon Linux 2 AMI (HVM), SSD Volume Type` image. It should be the first image listed.
 4. The next screen will ask us to select the [i]size[/i] of the virtual machine. In this case the default (t2.micro) is fine for our purposes. Select it and click the `Review and Launch` button.
 5. A box comes up that lets us review the selection. Go ahead and click `Launch`
