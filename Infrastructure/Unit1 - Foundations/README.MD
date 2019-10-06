@@ -31,7 +31,7 @@ A [minecraft server](https://minecraft.gamepedia.com/Tutorials/Setting_up_a_serv
 2. Select `Launch a virtual machine` with EC2
 ![ec2 launch](https://i.imgur.com/9aTABTm.png)
 3. The first selection involves picking the image (the operating system) we use to build the machine. In this instance we can select the `Amazon Linux 2 AMI (HVM), SSD Volume Type` image. It should be the first image listed.
-4. The next screen will ask us to select the [i]size[/i] of the virtual machine. In this case the default (t2.micro) is fine for our purposes. Select it and click the `Review and Launch` button.
+4. The next screen will ask us to select the _size_ of the virtual machine. In this case the default (t2.micro) is fine for our purposes. Select it and click the `Review and Launch` button.
 5. A box comes up that lets us review the selection. Go ahead and click `Launch`
 6. A prompt will come up asking us for the `key pair` used to connect to the machines. This key is a way of connecting securely to our machines without needing a password. Go ahead and select `create a new key pair` and enter `minecraft server` for the key pair name.
 7. Click the Download Key Pair button. Save the file to your desktop.
@@ -96,6 +96,6 @@ In this exercise we'll install the JVM and finally install our minecraft server 
 15. Your minecraft server will now begin its startup script.
 ![Minecraft Startup](https://i.imgur.com/vMwhb63.png)
 
-Lesson 4: Networking
+### Lesson 4: Networking
 
 Your minecraft server is up but how do players connect to it? In this Lesson we'll go over the basics of how networking works on the internet.
