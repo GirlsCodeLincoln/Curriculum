@@ -29,11 +29,12 @@ A [minecraft server](https://minecraft.gamepedia.com/Tutorials/Setting_up_a_serv
 
 1. Log onto the [AWS Console](https://aws.amazon.com/console/)
 2. Select `Launch a virtual machine` with EC2
+![ec2 launch](https://i.imgur.com/9aTABTm.png)
 3. The first selection involves picking the image (the operating system) we use to build the machine. In this instance we can select the `Amazon Linux 2 AMI (HVM), SSD Volume Type` image. It should be the first image listed.
 4. The next screen will ask us to select the [i]size[/i] of the virtual machine. In this case the default (t2.micro) is fine for our purposes. Select it and click the `Review and Launch` button.
 5. A box comes up that lets us review the selection. Go ahead and click `Launch`
 6. A prompt will come up asking us for the `key pair` used to connect to the machines. This key is a way of connecting securely to our machines without needing a password. Go ahead and select `create a new key pair` and enter `minecraft server` for the key pair name.
-7. Click the Download Key Pair button. Save the file to your desktop
+7. Click the Download Key Pair button. Save the file to your desktop.
 8. Click `Launch Instance` again
 9. The cloud will now start creating your server. Click the `view launch log` to watch the progress.
 10. When its complete click `view instances`
@@ -60,6 +61,14 @@ In this exercise we'll examine the server you created in Exercise 1 to better un
 8. Scroll through the list and notice the different options available. Notice how the primary difference between virtual machines available is the `vCPUs`, `Memory`, `Storage`, and `Network` available.
 9. If you wanted to make sure your minecraft server could handle large amounts of users what virtual machine might you select from that list? Why?
 9. click cancel
+
+### Group Activity #2: Selecting a Virtual Machine
+
+Break up into groups of 2-3 and take 5-10 minutes to answer the following questions.
+
+1. Suzy Salesperson needs an application deployed onto the cloud. The application needs a lot of CPU resources (The recommendations say 16+ CPUs) but lists hard disk requirements as only needing 50GB of space. What Virtual Machine type would you suggest? Why?
+
+2. Hector from accounting needs a virtual machine to host his accounting databases backup. He's not too sure on the CPU requirements but informs you that it processes a lot of data from other database servers across the network. He also needs as much disk space as you can give. Which VM type would you choose? Why?
 
 ### Lesson 3: Understanding Virtual Machines
 
