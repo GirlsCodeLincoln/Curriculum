@@ -134,6 +134,7 @@ Your minecraft server is up but how do players connect to it? In this Lesson we'
 
 #### Exercise 4A: Wordpress setup
 Our minecraft server is setup but we also want a nice website so we can advertise how great our server is (as well as deploy some code to). To do that we're going to use a very popular webserver called [wordpress](https://wordpress.com/).
+
 1. Log onto the [AWS Console](https://aws.amazon.com/console/)
 2. At the top left click `services` and then `ec2` and then `instances`
 3. Click `Launch Instances` and in the searchbox type in `wordpress` and select the results in the AWS Marketplace.
@@ -163,3 +164,72 @@ Building infrastructure and making it available is only part of our job - we als
 ### Exercise 5: Setup monitoring for our server
 We've created our minecraft server & web server and allowed network traffic to it. Last step to running our infrastructure is setting up monitoring to notify us if our server is running into any problems.
 
+1. Log onto the [AWS Console](https://aws.amazon.com/console/)
+2. At the top left click `services` and then `ec2` and then `instances`
+3. Right click on the `minecraft` instance and then `Cloud Watch Monitoring`. Select `Add/Edit Alarms`.
+4. Click `Create Alarm` and then `close`
+5. Check the box that says `Send a notification to...` and then click `create topic`.
+6. Enter `girlscodelincoln{X}@gmail.com` in the `With these recipients` box replacing `{X}` with the
+name of the account you using.
+7. Where it says `Manually enter a topic name...` enter `minecraft_alert`
+8. Set the alert to `Average` of `CPU Utilization` and then enter `50` percent.
+9. Change to For at least `1` consecutive periods(s) of `15 minutes`.
+10. Click `Create Alarm`.
+11. Right click on the `minecraft` instance and then `Cloud Watch Monitoring`. Select `Add/Edit Alarms`.
+12. Click `Create Alarm`
+13. Check the box that says `Send a notification to...` and then enter `minecraft_alert`.
+14. Under `Whenever` select `Status Check Failed (Any)`
+15. For at least `5` consecutive periods of `1 minute`
+16. Click `Create Alarm` and then `close`
+
+### Lesson 6: Autoscaling
+As we build these services - our minecraft and wordpress servers - and monitor what happens if we get a spike in traffic? How do we handle sudden user load effectively?
+
+- CPU autoscaling
+- Memory autoscaling
+- Network scaling
+- Custom
+
+### Exercise 6: Autoscaling
+1. Log onto the [AWS Console](https://aws.amazon.com/console/)
+2. At the top left click `services` and then `ec2` and then `instances`
+3. Right click on the `minecraft`  and select `instance settings` and then `attach to auto scaling group`.
+4. Select `a new auto scaling group` and enter `minecraft` for the group name.
+5. click attach
+6. Click the link in the center of the confirmation box that says `minecraft` to view your auto scaling groups configuration.
+7. Select `Actions` and then `Edit`.
+8. Enter `2` for the `max` number of instances and select `save`.
+9. Scroll down and select the `scaling policies` tab at the bottom of the screen.
+10. Click `add policy`.
+11. Under `name` enter `CPU Scaling` select `average cpu utilization` and then enter `90` for target value 
+12. Under `instances need` enter 600.
+13. Click `create`.
+
+### Lesson 7: Cloud Building Blocks
+We've done the basics of building a cloud infrastructure - we've setup a application server (minecraft) and a web server. Lets talk about the different basic building blocks of modern infrastructure and how it works.
+
+- Databases
+- Queues
+- Load Balancers
+- Storage
+- Event Driven Services
+- API Gateways
+- Containers
+- Virtual Machines
+- Firewalls
+- Cache
+- Autoscaling
+
+### Exercise 7: Cat Pictures please
+Your company, Cat Corporation, has decided to launch a new product - the Cute Cat Camera. This camera will be put on your cats collar and capture continuous pictures of your cat doing cat things and uploading it to hte internet so the cats hoomans can see what the cat is doing most days (your guess is sleeping). 
+
+You lead the infrastructure team who is responsible for building out the infrastructure to handle these tens of thousands of cat pictures that are going to be coming in to your servers at all hours of the day. The key requirements for you are:
+
+- A website where users can view the cat pictures.
+- A web service where your cat collar cameras can upload their pictures
+- A database that can store all these pictures.
+- The ability for the pictures to show up within 5-15 minutes on the website.
+- The ability for your web servers and web services to automatically scale in case of a sudden increase in cat pictures being uploaded.
+- A public API that can be used for third party partners.
+
+Draw out what you think a good infrastructure of this would look like knowing all you now know about cloud infrastructure!
