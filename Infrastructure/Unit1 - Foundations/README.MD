@@ -150,7 +150,7 @@ Our minecraft server is setup but we also want a nice website so we can advertis
 12. Select your wordpress server right click and select `instance settings -> get system log`.
 13. Scroll down in the log until you see the password listed like in this screen shot
 ![wp screenshot](https://docs.bitnami.com/images/img/platforms/aws/cm-app-credentials-3.png). It is likely towards the bottom of the log. Copy the password and click `close`
-14. Note the `ipv4 public ip` listed in the column for your wordpress server. Open a new browser tab and go to `http://3.15.155.75/wp-admin` replacing `{IP}` with the value from the `ipv4 public ip column`.
+14. Note the `ipv4 public ip` listed in the column for your wordpress server. Open a new browser tab and go to `http://{IP}/wp-admin` replacing `{IP}` with the value from the `ipv4 public ip column`.
 15. Type in `user` and paste in the password from step 13 into the password box and click `log in`.
 16. Lets quickly change the password of our user. At the very top right of the screen where it says `howdy, user` click. 
 17. Scroll down and click `generate password`. Type in our password and click `update profile`.
