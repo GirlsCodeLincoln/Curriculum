@@ -118,6 +118,7 @@ Your minecraft server is up but how do players connect to it? In this Lesson we'
 16. type in `cd /etc/init.d`
 17. copy & paste the following line `sudo wget -O minecraft "http://minecraft.gamepedia.com/Tutorials/Server_startup_script/Script?action=raw"`
 18. type in `sudo nano minecraft`
+19. Change the `service` value to be `server.jar`
 19. Change the `world` valueto be `'default'`
 20. Change `username` value to be `'ec2-user'`
 21. Under `MCPATH` change the path value to be `'/home/ec2-user/minecraft'`
