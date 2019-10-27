@@ -86,16 +86,80 @@ In this exercise we'll install the JVM and finally install our minecraft server 
 6. type in `mkdir minecraft` to create a minecraft directory.
 7. type in `cd minecraft`.
 8. type in `wget https://launcher.mojang.com/v1/objects/3dc3d84a581f14691199cf6831b71ed1296a9fdf/server.jar` this will download the minecraft server -- the `server.jar` to your minecraft directory.
-9. type in `java -Xms1G -jar server.jar`. This command allocates 1GB of memory to our minecraft server at start and lets it grow to a maximum of 1GB.
+9. type in `java -Xmx1024M -Xms1024M -jar server.jar`.
 10. An error message should appear letting us know that we need to accept the eula (End User License Agreement)
 ![End User Agreement](https://i.imgur.com/ItZyQBt.png)
 11. type in `nano eula.txt` this will start the Nano text editor to edit the eula.txt file.
 12. Use the arrow keys to scroll down and change the line to read `eula=true`
 13. Hit Ctrl+X and then `Y` and then press enter to save your changes
-14. Enter `java -Xms1G -jar server.jar` to start your minecraft server again.
+14. Enter `java -Xmx1024M -Xms1024M -jar server.jar` to start your minecraft server again.
 15. Your minecraft server will now begin its startup script.
 ![Minecraft Startup](https://i.imgur.com/vMwhb63.png)
 
 ### Lesson 4: Networking
-
 Your minecraft server is up but how do players connect to it? In this Lesson we'll go over the basics of how networking works on the internet.
+
+### Exercise 4: Setting up your network
+1. Log onto the [AWS Console](https://aws.amazon.com/console/)
+2. At the top left click `services` and then `ec2`
+3. On the left select instances.
+4. Make sure your machine is started. If the Instance State isn't `running` select your machine, click actions, and then start. Click Yes, Start when prompted.
+5. On the left hand pane under `Network & Security` select `Security Groups`
+6. Click `Create Security Group`
+7. Under `Security Group Name` enter `Minecraft`, for description enter `Minecraft` and leave the `VPC` selected as the default. 
+8. Under `inboud rule` select `add rule`.
+9. Leave type as `Custom TCP Rule` and enter `25565` into the `Port Range`. For `Source` add `anywhere`.
+10. Click `add rule` and then under `type` select `Custom UDP Rule` and enter `25565` into the `Port Range` For `Source` add `anywhere`.
+11. Click `Create`
+12. On the left hand side click `Instances`
+13. Select your running instance and then right click on it and select `Networking -> Change Security Groups`.
+14. Check the box that says `Assign Security Groups`.
+15. Select `connect` and then select `EC2 instance connect (browser based ssh connection)`.
+16. type in `cd /etc/init.d`
+17. copy & paste the following line `sudo wget -O minecraft "http://minecraft.gamepedia.com/Tutorials/Server_startup_script/Script?action=raw"`
+18. type in `sudo nano minecraft`
+19. Change the `world` valueto be `'default'`
+20. Change `username` value to be `'ec2-user'`
+21. Under `MCPATH` change the path value to be `'/home/ec2-user/minecraft'`
+22. Change the `BACKUPPATH` value to be `'/home/ec2-user/minecraft.backup'`
+23. Change the `invocation` value to be `"java -jar $SERVICE $OPTIONS"`
+24. Hit `CTRL + X` and then `enter` and `y`
+25. Enter in `chmod a+x /etc/init.d/minecraft`
+26. type in `service minecraft start`
+27. Go back to your AWS Console page. Select your instance and scroll to the bottom and select `description`.
+28. Copy the IPv4 Public IP.
+29. OPen a new browser tab. Enter the following URL, replacing the `{IP}` with the value you got in step 28. http://{IP}:25565 . If we did everything correctly we should get an error messaging saying ERR_INVALID_HTTP_RESPONSE
+30. You can see an example of a blocked port by going to any other port on the ip - `http://{IP}:123` for example will return a can't connect error message.
+
+
+#### Exercise 4A: Wordpress setup
+Our minecraft server is setup but we also want a nice website so we can advertise how great our server is (as well as deploy some code to). To do that we're going to use a very popular webserver called [wordpress](https://wordpress.com/).
+1. Log onto the [AWS Console](https://aws.amazon.com/console/)
+2. At the top left click `services` and then `ec2` and then `instances`
+3. Click `Launch Instances` and in the searchbox type in `wordpress` and select the results in the AWS Marketplace.
+4. `Select` the one labelled `WordPress Certified by Bitnami and Automatic`
+5. Click `continue`
+6. Select the `t2.micro` type (where it says free tier eligible under type)
+7. Click `Review & Launch` and then `Launch`.
+8. Select `choose an existing key pair` and then select `minecraft server`
+9. Click `Launch Server`
+10. Wait for your server to finish starting and then at the top left click `services` and then `ec2` and then `instances`
+11. You should see 2 running instances now. Your minecraft server & the running wordpress server. We can find out which is which by clicking on each and scrolling down to under `security groups` or `ami`. The wordpress server will having something in those groups saying `WordPress Certified..`. Lets give them each a name. At the top in the list of instance click into the `name` column and give the minecraft & wordpress servers a dedicated name.
+12. Select your wordpress server right click and select `instance settings -> get system log`.
+13. Scroll down in the log until you see the password listed like in this screen shot
+![wp screenshot](https://docs.bitnami.com/images/img/platforms/aws/cm-app-credentials-3.png). It is likely towards the bottom of the log. Copy the password and click `close`
+14. Note the `ipv4 public ip` listed in the column for your wordpress server. Open a new browser tab and go to `http://3.15.155.75/wp-admin` replacing `{IP}` with the value from the `ipv4 public ip column`.
+15. Type in `user` and paste in the password from step 13 into the password box and click `log in`.
+16. Lets quickly change the password of our user. At the very top right of the screen where it says `howdy, user` click. 
+17. Scroll down and click `generate password`. Type in our password and click `update profile`.
+18. Click on `Dashboard` at hte top left and then `customize your site`.
+19. Change the title or tagline and then click `publish`
+20. Open a new browser tab and go to `http://{IP}` replacing `{IP}` with the value from step 14.
+
+
+### Lesson 5: Monitoring
+Building infrastructure and making it available is only part of our job - we also need to monitor our services to make sure we know they're always available. Learn about the basics of service monitoring.
+
+### Exercise 5: Setup monitoring for our server
+We've created our minecraft server & web server and allowed network traffic to it. Last step to running our infrastructure is setting up monitoring to notify us if our server is running into any problems.
+
