@@ -124,7 +124,7 @@ Your minecraft server is up but how do players connect to it? In this Lesson we'
 22. Change the `BACKUPPATH` value to be `'/home/ec2-user/minecraft.backup'`
 23. Change the `invocation` value to be `"java -jar $SERVICE $OPTIONS"`
 24. Hit `CTRL + X` and then `enter` and `y`
-25. Enter in `chmod a+x /etc/init.d/minecraft`
+25. Enter in `sudo chmod a+x /etc/init.d/minecraft`
 26. type in `service minecraft start`
 27. Go back to your AWS Console page. Select your instance and scroll to the bottom and select `description`.
 28. Copy the IPv4 Public IP.
