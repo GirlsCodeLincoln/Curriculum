@@ -221,7 +221,87 @@ We've done the basics of building a cloud infrastructure - we've setup a applica
 - Cache
 - Autoscaling
 
-### Exercise 7: Cat Pictures please
+### Exercise 7a: Queues, Databases, and Events.
+
+In this exercise we're going to use JavaScript to build a series of Queues, Databases, and Events to gain a better understanding of what exactly they are.
+
+1. Open a new browser tab and browse to https://jsfiddle.net/adazlian/xfoze8g5 
+2. This is a demo page that has the necessary HTML but is lacking all the JavaScript needed to setup the page so the different buttons work correctly. First we're going to setup the events.
+3. Lets create an event to _handle_ when someone clicks on the `queue` button. IN the HTML at the top left find where the queue button HTML element is and we need to add the following line of code `onclick=addQueueHandler()`. This tells the browser when the button is clicked it needs to invoke the function called addQueueHandler.
+4. Lets create the function to handle removing things from the queue. Add a handler to the button for Remove Queue - `onclick=removeQueueHandler()`
+5. Now lets create the `queue` to handle the addition of things to our queue. At the bottom left in the pane that says JavaScript + Library (pure JS) lets create a function called queueHandler. This function will accept
+```
+const addQueueHandler = function() {
+  _queue.push({
+    add: `${_queue.length + 1}`
+  });
+  const queueResult = document.getElementById('queueResults');
+  queueResult.textContent = `Queue Length ${_queue.length}`;
+}
+
+window.addQueueHandler = addQueueHandler;
+```
+6. We need to add just a few more lines of code to handle removing things from our queue.
+```
+const removeQueueHandler = function() {
+  const removed = _queue.pop();
+  const queueRemoved = document.getElementById('queueRemove');
+  if (removed) {
+    queueRemoved.textContent = `The element that was added ${removed.add} has been removed`;
+  } else {
+    queueRemoved.textContent = 'The queue is empty.';
+  }
+}
+window.removeQueueHandler = removeQueueHandler;
+```
+7. Click `run` at the top left of your browser window. Try clicking `add queue` and `remove queue`. Note how the items are added on top of the queue and how the queue removes items. This is considered a FIFO queue - First In, First Out.
+8. Next we're going to add a database. IN your JS tab lets add the following code to handle creating our database.
+```
+const dbName = "GirlsCode";
+var request = indexedDB.open(dbName, 5);
+request.onerror = function(event) {
+  console.log(event);
+}
+request.onupgradeneeded = function(event) {
+  var db = event.target.result;
+  var objectStore = db.createObjectStore("input", {
+    autoIncrement: true
+  });
+}
+```
+9. Now lets add this code to handle the event of clicking add to DB:
+```
+const addToDb = function() {
+  const input = document.querySelector('[name=database]');
+  const addRequest = window.indexedDB.open(dbName, 5);
+  addRequest.onsuccess = function(result) {
+    const trans = result.target.result.transaction(['input'], 'readwrite');
+    const store = trans.objectStore('input');
+    const addResult = store.add({
+      text: input.value,
+      time: new Date().getTime()
+    });
+    
+    addResult.onsuccess = function(success) {
+     	const results = document.getElementById('databaseResults');
+      const readTrans = addRequest.result.transaction(['input'], 'readonly').objectStore('input');
+      readTrans.openCursor().onsuccess = function (event) {
+      		const cursor = event.target.result;
+          if(cursor) {
+          					const old = results.innerHTML;
+                		results.innerHTML = old + '<br /><br />' + 'Key:' + cursor.key + 'Value:' + cursor.value.text + cursor.value.time;
+                    cursor.continue();
+          }
+      }
+    }
+  }
+}
+window.addToDb = addToDb;
+```
+10. Finally, lets add the event handler to the HTML. Find the button for DB add and add the `onclick="addToDb()"` so when we click the button it adds to the database.
+11. Try entering some text into the DB and clicking add. Notice how the database is displaying your values, the time it was added, and the item in the page.
+
+### Exercise 7b: Cat Pictures please
 Your company, Cat Corporation, has decided to launch a new product - the Cute Cat Camera. This camera will be put on your cats collar and capture continuous pictures of your cat doing cat things and uploading it to hte internet so the cats hoomans can see what the cat is doing most days (your guess is sleeping). 
 
 You lead the infrastructure team who is responsible for building out the infrastructure to handle these tens of thousands of cat pictures that are going to be coming in to your servers at all hours of the day. The key requirements for you are:
