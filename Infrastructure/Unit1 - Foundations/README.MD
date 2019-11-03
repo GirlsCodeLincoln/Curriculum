@@ -231,6 +231,7 @@ In this exercise we're going to use JavaScript to build a series of Queues, Data
 4. Lets create the function to handle removing things from the queue. Add a handler to the button for Remove Queue - `onclick="removeQueueHandler()"`
 5. Now lets create the `queue` to handle the addition of things to our queue. At the bottom left in the pane that says JavaScript + Library (pure JS) lets create a function called queueHandler. This function will accept
 ```
+const _queue = [];
 const addQueueHandler = function() {
   _queue.push({
     add: `${_queue.length + 1}`
