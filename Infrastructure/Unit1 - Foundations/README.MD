@@ -227,8 +227,8 @@ In this exercise we're going to use JavaScript to build a series of Queues, Data
 
 1. Open a new browser tab and browse to https://jsfiddle.net/adazlian/xfoze8g5 
 2. This is a demo page that has the necessary HTML but is lacking all the JavaScript needed to setup the page so the different buttons work correctly. First we're going to setup the events.
-3. Lets create an event to _handle_ when someone clicks on the `queue` button. IN the HTML at the top left find where the queue button HTML element is and we need to add the following line of code `onclick=addQueueHandler()`. This tells the browser when the button is clicked it needs to invoke the function called addQueueHandler.
-4. Lets create the function to handle removing things from the queue. Add a handler to the button for Remove Queue - `onclick=removeQueueHandler()`
+3. Lets create an event to _handle_ when someone clicks on the `queue` button. IN the HTML at the top left find where the queue button HTML element is and we need to add the following line of code `onclick="addQueueHandler()"`. This tells the browser when the button is clicked it needs to invoke the function called addQueueHandler.
+4. Lets create the function to handle removing things from the queue. Add a handler to the button for Remove Queue - `onclick="removeQueueHandler()"`
 5. Now lets create the `queue` to handle the addition of things to our queue. At the bottom left in the pane that says JavaScript + Library (pure JS) lets create a function called queueHandler. This function will accept
 ```
 const addQueueHandler = function() {
