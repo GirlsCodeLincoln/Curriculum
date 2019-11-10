@@ -38,7 +38,7 @@
 </button>
 {#if count > 0}
 <p class="purple">
-	Your count is {count}
+	You've search for {count} kitties
 </p>
 {/if}
 {#if data.file}
