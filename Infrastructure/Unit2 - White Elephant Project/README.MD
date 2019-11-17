@@ -216,7 +216,7 @@ Now that we can search lets work on displaying the data we got back to the user.
 9. Update your `each` block to display the image. Something like this
 `<img src="{thumbnailImage}" />`
 10. Your results might now look like this:
-![images!!!](https://i.imgur.com/GKS4y01.png)
+![images!!!](https://i.imgur.com/6h2XTbK.png)
 
 ### Exercise 8 - Saving State
 What if a user
