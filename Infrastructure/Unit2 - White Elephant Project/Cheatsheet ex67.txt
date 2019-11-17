@@ -1,0 +1,30 @@
+<script>
+	import { fade, fly } from 'svelte/transition';
+	let search = 'pixel';
+	   let bestbuyData = [];
+	async function searchClick() {
+        const response = await fetch("https://api.bestbuy.com/v1/products((search=" + search + ")&(categoryPath.id=pcmcat209400050001))?apiKey=KY5OMGMTVB6KlMDolGR0GHsV&sort=color.asc&show=color,name,regularPrice,customerReviewAverage,thumbnailImage&format=json");
+        const json = await response.json();
+        bestbuyData = json.products;
+			  console.log(bestbuyData)
+	}
+</script>
+
+<input bind:value={search} placeholder="enter a keyword">
+<button  on:click={searchClick}>
+    Search Best Buy
+</button>
+<p>You entered {search || 'pixel'} in the text box.</p>
+<p>
+		{#each bestbuyData as { color, regularPrice, name,customerReviewAverage,thumbnailImage  }, i}
+	 <p in:fly="{{ y: 200, duration: 2000 }}" out:fade>
+		Color: {color}
+	  Price: {regularPrice}
+	  Name: {name}
+		Rating: {customerReviewAverage} 
+		 <img src="{thumbnailImage}" />
+	 </p>
+	<br />
+	{/each}
+
+</p>

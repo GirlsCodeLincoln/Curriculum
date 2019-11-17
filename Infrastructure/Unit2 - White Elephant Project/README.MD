@@ -142,3 +142,81 @@ Break into 3 groups. In each of the three groups come up with the following:
 3. IF a user is going to interact with the component in any way - i.e. clicking on a button to do something - describe what that button click
 4. Where possible describe the feature of SvelteJS you will use to finish the functionality.
 
+### Lesson 6 - Using real world APIs
+In this lesson we're going to go over real world APIs, chrome debugging tools, and how to make use of them.
+
+### Exercise 6 - Handling user Input & query an API
+In this exercise we're going to learn how to handle user input and send that user input to a API.
+
+1. Open a new browser tab and go to [the svelte REPL console](https://svelte.dev/repl/hello-world?version=3.14.1)
+2. First, lets create a real input box for our users so they can type in their search. Look at the [documentation for text inputs](https://svelte.dev/examples#text-inputs). Add that code to your console, but change it so it says "You entered: in the text box". At the end you be able to see this:
+![expected result](https://i.imgur.com/mTLxd57.png)
+3. Now we need that same input box to make a API call to Best Buy's API so we can retrieve product details. To do this we're going to use the [best buy query product api](http://bestbuyapis.github.io/bby-query-builder/#/productSearch) which you can go ahead and open up in a new tab.
+4. For the api key - found at the top right of the screen - enter `KY5OMGMTVB6KlMDolGR0GHsV` and use the search console to craft some queries. For example, I can select Digital Cameras, Sony and request the color and regular price. When I click run query notice on the right hand pane the request and the response you get.
+![result from best buy api](https://i.imgur.com/G4NY5o0.png)
+5. Now, lets make your input query the best buy api. Go back to your svelte tab and lets add the API query. Replace `https://example` with the request you crafted from step 4.
+```
+	   let bestbuyData = [];
+	async function searchClick() {
+        const response = await fetch("https://example");
+        const json = await response.json();
+        bestbuyData = json.products;
+        console.log(bestbuyData)
+	}
+```
+6. We need to replace the `search=` part of the request with your user data. Assume in my original best buy query I had searched for sony the URL I copied into step 5 would look something like this:
+`(search=sony)`. We're going to replace the `sony` in that part with the user input.
+7.  Assuming I had the `bind:value={name}` in my input from step 2 i'd use `name` as the variable so my new query string would look like this `(search=" + name + ")`.
+8.  We need to add a button the users can click on to search. Lets go ahead and add that right underneath the `<input>` tag:
+```
+<button on:click={searchClick}>
+    Search Best Buy
+</button>
+```
+9. Now lets make sure that when you enter data and click its working. We're going to open developer tools. Hold down `CTRL + SHIFT + I`. This will open the chrome developer tools which, as developers, you'll become very familar with. In step 5 we added this statement - `console.log(bestbuyData)`. This told our program to put to the console whatever `bestbuyData` was. The console is what you're viewing now. If I put in a search term - say `sony` and click search ebay in the console I should see something like this:
+![results](https://i.imgur.com/SGcjR2j.png)
+10. If I click on the little arrow to the right of this, I can expand the search results and see the exact data and object we're going to use.
+![results more](https://i.imgur.com/E4HJEGX.png)
+
+
+### Lesson 7 - Templating
+In this lesson we'll go over templating - i.e. displaying user data using each, if/else and other type of templates to display data.
+
+### Exercise 7 - Displaying Results
+Now that we can search lets work on displaying the data we got back to the user.
+
+1. Use your same app from Exercise 6 or you can use mine query - where I was searching cell phones. You can also go to the [best buy api query builder](http://bestbuyapis.github.io/bby-query-builder/#/productSearch) and craft your own custom search again too.
+```
+<script>
+	let search = 'pixel';
+	   let bestbuyData = [];
+	async function searchClick() {
+        const response = await fetch("https://api.bestbuy.com/v1/products((search=" + search + ")&(categoryPath.id=pcmcat209400050001))?apiKey=KY5OMGMTVB6KlMDolGR0GHsV&sort=color.asc&show=color,regularPrice,name&format=json");
+        const json = await response.json();
+        bestbuyData = json.products;
+			  console.log(bestbuyData)
+	}
+</script>
+
+<input bind:value={search} placeholder="enter a keyword">
+<button  on:click={searchClick}>
+    Search Best Buy
+</button>
+<p>You entered {search || 'pixel'} in the text box.</p>
+```
+2. In my case i'm fetching three things back - the color, the name and the price. That's what the `show=color,regularPrice,name` means in the URL. I want to display this data to the user.
+3. Svelte has the concept of [each blocks](https://svelte.dev/examples#each-blocks). In my case I know I need to display the color and price to users. For your query use the each block to display the results from the user's search. It should end up looking something like this:
+![results](https://i.imgur.com/huV6kPL.png)
+4. Lets make it look cooler to the user and add some effects. Svelte offers a [in and out](https://svelte.dev/examples#in-and-out) transition effect we can use. Add that transition to your search results, inside your each block
+5. Lets add some more data we want back from our API - ratings of the products. Go back to the [product api](http://bestbuyapis.github.io/bby-query-builder/#/productSearch) and make sure you are getting `customer review average` in the product attributes. Click run query.
+6. Notice how the `request` changes and we now have `customerReviewAverage`. Lets add that to our data we fetch back - so our `sort` in the `<script>` section of our website. Also add `customerReviewAverage` to your `each` template from step 3 and add it so it displays to the user:
+![example image](blob:https://imgur.com/9483541a-7d3d-4567-9038-d3e92bd34b2b)
+7. Finally, lets add the image so it displays to the users. Go back to our [product search api](http://bestbuyapis.github.io/bby-query-builder/#/productSearch) and lets add `thumbnail image` to the product attributes and click `run query`. Notice that our `request` now has `thumbnailImage`.
+8. Update our search query in the `script` part of our page - like you did in step 6 - to also fetch `thumbnailImage`.
+9. Update your `each` block to display the image. Something like this
+`<img src="{thumbnailImage}" />`
+10. Your results might now look like this:
+![images!!!](https://i.imgur.com/GKS4y01.png)
+
+### Exercise 8 - Saving State
+What if a user
