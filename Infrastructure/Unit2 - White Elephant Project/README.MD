@@ -210,7 +210,7 @@ Now that we can search lets work on displaying the data we got back to the user.
 4. Lets make it look cooler to the user and add some effects. Svelte offers a [in and out](https://svelte.dev/examples#in-and-out) transition effect we can use. Add that transition to your search results, inside your each block
 5. Lets add some more data we want back from our API - ratings of the products. Go back to the [product api](http://bestbuyapis.github.io/bby-query-builder/#/productSearch) and make sure you are getting `customer review average` in the product attributes. Click run query.
 6. Notice how the `request` changes and we now have `customerReviewAverage`. Lets add that to our data we fetch back - so our `sort` in the `<script>` section of our website. Also add `customerReviewAverage` to your `each` template from step 3 and add it so it displays to the user:
-![example image](blob:https://imgur.com/9483541a-7d3d-4567-9038-d3e92bd34b2b)
+![example image](https://i.imgur.com/GKS4y01.png)
 7. Finally, lets add the image so it displays to the users. Go back to our [product search api](http://bestbuyapis.github.io/bby-query-builder/#/productSearch) and lets add `thumbnail image` to the product attributes and click `run query`. Notice that our `request` now has `thumbnailImage`.
 8. Update our search query in the `script` part of our page - like you did in step 6 - to also fetch `thumbnailImage`.
 9. Update your `each` block to display the image. Something like this
