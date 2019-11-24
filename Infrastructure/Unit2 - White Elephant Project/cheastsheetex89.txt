@@ -1,0 +1,105 @@
+<script>
+	   import { fade, fly } from 'svelte/transition';
+	   let search = 'pixel';
+	   let bestbuyData = [];
+		 let count = bestbuyData.count;
+	async function searchClick() {
+        const response = await fetch("https://api.bestbuy.com/v1/products((search=" + search + ")&(categoryPath.id=pcmcat209400050001))?apiKey=KY5OMGMTVB6KlMDolGR0GHsV&sort=color.asc&show=color,name,regularPrice,customerReviewAverage,thumbnailImage&pageSize=100&format=json");
+        const json = await response.json();
+        bestbuyData = json.products;
+			  console.log(bestbuyData);
+	}
+	
+function handlePrice() {
+	bestbuyData = bestbuyData.sort(function(first,second){
+		return first.regularPrice - second.regularPrice;
+	});
+}
+	
+function handleColor() {
+	bestbuyData = bestbuyData.sort(function(first,second){
+		if(first.color < second.color) {
+			return -1;
+		}
+		if(first.color > second.color) {
+			return 1;
+		}
+		return 0;
+	});
+}
+	
+function handleName() {
+		bestbuyData = bestbuyData.sort(function(a, b) {
+			var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+			var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+			if (nameA < nameB) {
+				return -1;
+			}
+			if (nameA > nameB) {
+				return 1;
+			}
+
+			// names must be equal
+			return 0;
+	});
+}
+
+function handleRating() {
+		bestbuyData = bestbuyData.sort(function(first,second){
+			return first.customerReviewAverage - second.customerReviewAverage;
+	});
+}
+</script>
+
+
+
+<input bind:value={search} placeholder="enter a keyword">
+<button  on:click={searchClick}>
+    Search Best Buy
+</button>
+<table>
+ {#if bestbuyData.length > 0}
+	<tr>
+		<td>
+			<button on:click={handlePrice}>
+				Sort by Price
+			</button>
+		</td>
+		<td>
+			<button on:click={handleColor}>
+				Sort by Color
+			</button>
+		</td>
+		<td>
+			<button on:click={handleName}>
+				Sort by Name
+			</button>
+		</td>
+		<td>
+			<button on:click={handleRating}>
+				Sort by Rating
+			</button>
+		</td>
+	</tr>
+	 {/if}
+		{#each bestbuyData as data}
+	<tr>
+		<td><img src="{data.thumbnailImage}" alt="thumbnail image for phone"/></td>
+	 <td in:fly="{{ y: 200, duration: 2000 }}" out:fade>
+		Color: {data.color}
+	  Price: {data.regularPrice}
+	  Name: {data.name}
+		Rating: {data.customerReviewAverage} 
+	 </td>
+		<td>
+			<input type=number bind:value={data.rating} min=0 max=10>
+		</td>
+		<td>
+			<input type=text bind:value={data.review} >
+		</td>
+		<td>
+			<input type=checkbox bind:value={data.saveforlater} >
+		</td>
+	</tr>
+	{/each}
+</table>

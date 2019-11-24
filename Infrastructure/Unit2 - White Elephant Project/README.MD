@@ -218,5 +218,88 @@ Now that we can search lets work on displaying the data we got back to the user.
 10. Your results might now look like this:
 ![images!!!](https://i.imgur.com/6h2XTbK.png)
 
-### Exercise 8 - Saving State
-What if a user
+### Lesson 8 - Working with Arrays
+
+### Exercise 8 - Rate & Review
+
+In this exercise we're going to add the ability for users to rate & review the gifts. When you get done your results should look like this:
+![result](https://i.imgur.com/74lgPhe.png)
+
+1. Browse to [https://svelte.dev/repl/0fbb5318b4ca46078fa9baaebdb1b9a2?version=3.15.0]. This has the code
+we did in Exercise 6 & 7 already entered in it.
+2. Svelte includes the ability to use numeric inputs from users - which is perfect for us as we can use it for our 1-5 rating system. Read the [tutorial on numeric inputs](https://svelte.dev/tutorial/numeric-inputs).
+3. As [per the tutorial](https://svelte.dev/tutorial/numeric-inputs) add a numeric input box to each of our search results. Set the minimum value to 1 and the maximum value to 5. Don't worry about the data binding value - the `{a}` or `{b}` in the example.
+4. Lets add a [text input](https://svelte.dev/tutorial/text-inputs)  for our review. add a text input box to each of our search results, don't worry about the data binding value - the `{name}` in the example.
+5. Finally, lets give the user the ability to save the results. Add a [checkbox input](https://svelte.dev/examples#checkbox-inputs) to each result. Don't worry about the data binding value - the `{yes}` in the example.
+6. Svelte lets us handle saving the reults directly back to our `bestbuyData` object using [each block bindings](https://svelte.dev/tutorial/each-block-bindings). For the inputs you made in step 3,4,5 we need to replace where the data is bound. Remove the data binding and, as per the tutorial, add 3 new data bindings. For the rating add a `rating`,for the text input add a `comments` binding and for the save add a `saveforlater` binding. As an example here is what your rating would look like:
+`<input type=number bind:value={data.rating} min=1 max=5>`
+
+
+
+### Exercise 9 - Sorting
+In this exercise we're going to add the ability for our users to add the ability to sort the results. When you get done your page should look like this:
+![expected result](https://i.imgur.com/MIVZpLz.png)
+
+1. Continue with the same code you've setup in Exercise 8.
+2. Inside your `table` add a row with 4 columns. Like this:
+```
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+```
+3. Inside each of the `<td>` tags [add a button](https://svelte.dev/tutorial/dom-event-forwarding) that lets us sort by the following things: `Price`, `Review`, `Name`, and `Color`.
+4. Update the bindings for each from `{handleClick}` to `{handlePrice}`,`{handleReview}`,`{handleColor}`,`{handleName}` for each of the 4.
+5. We're going to add a function for each of these 4 that lets us sort them as needed. Add the following code into the end of the `<script>` block.
+```
+function handlePrice() {
+	bestbuyData = bestbuyData.sort(function(first,second){
+		return first.regularPrice - second.regularPrice;
+	});
+}
+	
+function handleColor() {
+	bestbuyData = bestbuyData.sort(function(first,second){
+		if(first.color < second.color) {
+			return -1;
+		}
+		if(first.color > second.color) {
+			return 1;
+		}
+		return 0;
+	});
+}
+	
+function handleName() {
+		bestbuyData = bestbuyData.sort(function(a, b) {
+			var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+			var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+			if (nameA < nameB) {
+				return -1;
+			}
+			if (nameA > nameB) {
+				return 1;
+			}
+
+			// names must be equal
+			return 0;
+	});
+}
+
+function handleRating() {
+		bestbuyData = bestbuyData.sort(function(first,second){
+			return first.customerReviewAverage - second.customerReviewAverage;
+	});
+}
+```
+6. Almost done - we don't want to display those buttons to the user unless there are actually results. Use the [if block](https://svelte.dev/tutorial/if-blocks) to hide the entire `sort` unless `bestbuyData.length > 0`.
+
+### Exercise 10 - The Extras
+
+Lets add some polish to our awesome page! See if you can use what you learned above to add the following features to our page:
+
+1. Display a link back to the best buy product page. Hint: you'll probably need to use [the best buy query builder](http://bestbuyapis.github.io/bby-query-builder/#/productSearch) to build a new query!
+
+2. Change the color, size, and display options of our results so it looks better. Hint: you'll want to check out the [styling](https://svelte.dev/tutorial/styling) features of Svelte
