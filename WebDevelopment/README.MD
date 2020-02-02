@@ -1,7 +1,7 @@
-# Unit 2 - Infrastructure as Code
+# Unit 2 - White Elephent Project
 
 ## Overview
-In this Unit we're going to build a whole software project as a random white elephant generator. THe
+In this Unit we're going to build a whole software project as a random white elephant generator. We'll use Svelte.js to build a very simple webapp that queries Best Buy's API.
 
 ### Goals
 
