@@ -260,7 +260,7 @@ camera.
 
 16. We can also record video with raspivid - `raspivid -o Desktop/video.h264  -t 20000`. The following command will record 20 seconds of video and save it to your desktop.
 
-17. Type the following command to install VLC a free video player and some Python modules we'll need for the next section. - `sudo apt-get install -y vlc python-picamera python3-picamera`.
+17. Type the following command to install VLC a free video player, some Python modules we'll need for the next section, and Mirage a image viewer. `sudo apt-get install -y vlc python-picamera python3-picamera mirage`.
 
 18. After VLC has installed you should be able to double click on the `video.h264` icon on the desktop to play your video.
 
@@ -298,3 +298,98 @@ camera.stop_preview()
 ```
 
 27. You should see 5 new images on your desktop.
+
+28. Now lets record a new video. Amend your code to look like this:
+```
+from picamera import PiCamera
+from time import sleep
+camera = PiCamera()
+camera.rotation = 270
+
+camera.start_preview()
+camera.start_recording('/home/pi/Desktop/pyvideo.h264')
+sleep(5)
+camera.stop_recording()
+camera.stop_preview()
+```
+
+29. The camera offers a number of options to change the framerate and resolution. Lets set the maximum resolution and take some pictures with the following code. Paste this in and click run.
+
+```
+from picamera import PiCamera
+from time import sleep
+camera = PiCamera()
+camera.rotation = 270
+
+camera.resolution = (2592, 1944)
+camera.framerate = 15
+camera.start_preview()
+sleep(5)
+camera.capture('/home/pi/Desktop/max.jpg')
+camera.stop_preview()
+```
+
+30. We can also add text to our image. Try the following code below
+
+```
+from picamera import PiCamera
+from time import sleep
+camera = PiCamera()
+camera.rotation = 270
+
+camera.start_preview()
+camera.annotate_text = "Hello Girls Code Lincoln!"
+sleep(5)
+camera.capture('/home/pi/Desktop/text.jpg')
+camera.stop_preview()
+```
+
+31. We can change the color and size of the text as well with the following code. Note the `import PiCamera, Color` to add in the ability to set `Color` and the `annotate_text_size` to set the text size.
+
+```
+from picamera import PiCamera, Color
+from time import sleep
+camera = PiCamera()
+camera.rotation = 270
+
+camera.start_preview()
+camera.annotate_background = Color('blue')
+camera.annotate_foreground = Color('yellow')
+camera.annotate_text_size = 50
+camera.annotate_text = " Hello Girls Code Lincoln "
+
+sleep(5)
+camera.stop_preview()
+```
+
+32. There are a number of [camera effects](https://picamera.readthedocs.io/en/release-1.10/api_camera.html#picamera.camera.PiCamera.image_effect) we can use too with the `image_effect` option. Lets try it with `cartoon`.
+
+```
+from picamera import PiCamera
+from time import sleep
+camera = PiCamera()
+camera.rotation = 270
+
+camera.start_preview()
+camera.image_effect = 'cartoon'
+sleep(5)
+camera.capture('/home/pi/Desktop/cartoon.jpg')
+camera.stop_preview()
+```
+
+33. We can also try _all_ the image effects available with this loop:
+
+```
+from picamera import PiCamera
+from time import sleep
+camera = PiCamera()
+camera.rotation = 270
+
+camera.start_preview()
+for effect in camera.IMAGE_EFFECTS:
+    camera.image_effect = effect
+    camera.annotate_text = "Effect: %s" % effect
+    sleep(5)
+camera.stop_preview()
+
+```
