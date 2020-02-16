@@ -393,3 +393,74 @@ for effect in camera.IMAGE_EFFECTS:
 camera.stop_preview()
 
 ```
+
+## Lecture - Machine Learning
+
+1. How does your brain learn?
+2. What is a nueral network.
+3. Training.
+
+A good primer on the subject can be found on [Ars Technica](https://arstechnica.com/science/2019/12/how-neural-networks-work-and-why-theyve-become-a-big-business/)
+
+## Lesson 6 - Image Recognition
+In this lesson we're going to setup our Raspberry Pi to perform basic machine learning recognition using [Tensor Flow](https://www.tensorflow.org/) an open source machine learning library originally made by Google.
+
+1. Log onto your Raspberry Pi using Real VNC. If you don't see RealVNC on your laptop you can [download it here](https://www.realvnc.com/en/connect/download/viewer/).
+
+2. Click on the terminal icon (top left of the screen).
+![terminal icon](https://i.imgur.com/wiFSDEl.png)
+
+3. We need to first update our packages and install some necessary software. Copy & paste the following command in: `sudo apt-get update && sudo apt install -y libatlas-base-dev && pip3 install --user tensorflow` and press enter.
+
+4.  Lets start up Mu, our Python code editor. Go to the Raspberry Icon at the top left, then select Programming and Mu.
+![mu icon](https://i.imgur.com/EnfdORv.png)
+
+5. If Prompted, select `Python 3` and click OK.
+
+6. Lets make sure Tensorflow - the machine learning library we're using - is working correctly. Paste the following code into your Mu window. Save the file and give it a name of `hellotensorflow`
+
+```
+import tensorflow as tf
+hello = tf.constant('Hello, Girls Code Lincoln!')
+sess = tf.compat.v1.Session()
+print(sess.run(hello))
+```
+
+7. Click `Run` in the MU window. There will be a warning you can safely ignore and it should print the `Hello, Girls Code Lincoln!` in the window which means our tensorflow library was successfully installed.
+![hello success](https://i.imgur.com/sZ2g1Sg.png)
+
+8. Now we need to install the Image Classifier. Click on the Terminal Icon again.
+![terminal icon](https://i.imgur.com/wiFSDEl.png)
+
+9. Copy & paste in (use the right click on the mouse!) this command which will install our program `pip3 install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp37-cp37m-linux_armv7l.whl`
+
+10. Paste the following into the terminal window once step 9 finishes.  `git clone https://github.com/tensorflow/examples --depth 1` and press enter. This downloads some example code for us using Tensorflow.
+
+11. Copy & paste the following to get to the image classification tutorial: `cd examples/lite/examples/image_classification/raspberry_pi`
+
+12. This command downloads the pre-trained neural network to our Raspberry PI. `bash download.sh /tmp` 
+
+13. To make sure you can see the output click on the VNC icon at the top right of the screen
+![vnc](https://i.imgur.com/pEFV0zS.png)
+
+14. Click the hamburger menu and select `Options`.
+![options](https://i.imgur.com/5wWIekp.png)
+
+15. Select `Enable Direct Capture Mode` and click `OK`
+![direct capture mode](https://i.imgur.com/sM2O3uj.png)
+
+16. GO back to your terminal window and copy and paste the following script & press enter.
+```
+python3 classify_picamera.py \
+  --model /tmp/mobilenet_v1_1.0_224_quant.tflite \
+  --labels /tmp/labels_mobilenet_quant_v1_224.txt
+  ```
+
+17. Point your Camera at various objects. The Script will display 2 things at the very top. The object it is guessing with a confidence interval & the time it took to make the guess. In the screenshot below the neural net is guessing this is a desk with an 11% confidence level and it took 308ms to complete.
+![first guess](https://i.imgur.com/wt53Jcw.png)
+
+18. In this example I added my dog to the mix. It classified it as a Chihuahua with a 39% confidence level and it took the model 305ms to do so.
+![bertiebotts](https://i.imgur.com/b5WqFr7.png)
+
+19. Try pointing the camera at various objects in the room and see how well it does at classifying the objects. When you're done hold down `ctrl c` that is the `ctrl` and the `c` key at the same time to quit the python script.
+
