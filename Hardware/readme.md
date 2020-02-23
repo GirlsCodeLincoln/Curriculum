@@ -464,3 +464,129 @@ python3 classify_picamera.py \
 
 19. Try pointing the camera at various objects in the room and see how well it does at classifying the objects. When you're done hold down `ctrl c` that is the `ctrl` and the `c` key at the same time to quit the python script.
 
+## Lesson 7 - Image Recognition with saving!
+In this lesson we'll modify our Python script to save a copy of every image it classifies as well as modifying exactly what it's capturing and how it is previewing the image to us. 
+
+Note: We'll be using the Python programming language which is _space sensitive_. Be careful when modifying the scripts you don't remove or add additional spaces!
+
+1. Log onto your raspberry by with Real Vnc. If it isnt installed already you can [download it here](https://www.realvnc.com/en/connect/download/viewer/)
+
+2. Open the terminal window by clicking on the terminal icon
+![terminal icon](https://i.imgur.com/wiFSDEl.png)
+
+3. Type in `mkdir models` - this creates a models directory for us to use to download our models to. Then type in `mkdir ~/Desktop/gcl` this creates a `gcl` folder on our desktop we'll use later on in the lesson.
+
+4. Type or copy and paste in `bash examples/lite/examples/image_classification/raspberry_pi/download.sh ~/models`. This command executes the `download.sh` script which downloads the prebuilt training models to the directory `models` in your pi's home directory.
+
+5. We're going to create a copy of the script we used in Lesson 6 that we can modify ourselves. Type in the following command to copy that script to your local directory `cp examples/lite/examples/image_classification/raspberry_pi/classify_picamera.py ~`
+
+6. Verify your classification program is setup right by running this command which will execute the camera and classify images like we did in lesson 6. HIt `ctrl + c` to stop once it runs:
+```
+python3 classify_picamera.py \
+  --model ~/models/mobilenet_v1_1.0_224_quant.tflite \
+  --labels ~/models/labels_mobilenet_quant_v1_224.txt
+```
+
+7. Open up Mu by clicking on the raspberry icon then going to programming and then mu.
+
+8. Select Python 3 if prompted for programing mode.
+
+9. Click Load at the top and then on the left hand side click `pi`. Scroll down and select `classify-picamera.py` and click `open`.
+
+10. A camera has 2 primary ways of identifying its resolution usually written as the number of pixels it can capture in width and height. A pixel is the smallest unit a camera can display or capture. It is typically a value expressed a mix of red, green, blue, black, and white as well as brightness. When we say 640 x 480 resolution that means an image that is is 640 pixels wide and 480 pixels high.
+
+ This is also sometimes expressed as megapixels - for instance an iPhone 11 is able to capture a 12 megapixel image (4290 pixels wide by 2800 pixels tall). You multiple (4200 x 2800) = 12 million. The human eye is able to capture somewhere around 576 million megapixels. Our raspberry PI maxes out at 5 megapixel. Keep these numbers in mind when we modify the values below.
+
+
+11. Scroll down to Line 75. Lets modifying our preview window to not make it full screen on our Raspberry Pi. Modify the line to read `camera.start_preview(fullscreen=False, window=(100,100,640,480))`. This will start the preview with a window that is set 100 pixels off the top of the screen, 100 pixels to the left of the screen 640 pixels tall and 480 pixels wide. Save the file and then copy and paste this to run the program. Note the window size is much smaller. Hit `ctrl + c` to stop it.
+```
+python3 classify_picamera.py \
+  --model ~/models/mobilenet_v1_1.0_224_quant.tflite \
+  --labels ~/models/labels_mobilenet_quant_v1_224.txt
+```
+
+12. Now lets see what happens when we modify the resolution that our Camera is capturing with. A higher resolution might lead to better results from our image classification program. Modify line 74 resolution to be `(1024,768)` and set the `framerate` to `15`.  Save the script. Run our program again and scan common objects. Is it better at classifying? As before, copy and paste (or hit the up arrow in the terminal window) the following code and hit `ctrl + c` to stop the camera.
+```
+python3 classify_picamera.py \
+  --model ~/models/mobilenet_v1_1.0_224_quant.tflite \
+  --labels ~/models/labels_mobilenet_quant_v1_224.txt
+  ```
+
+13. Lets turn our raspberry pi camera up to its maximum level. Modify line 74 again to set the resolution to `(2592, 1944)` and the framerate to `5`. On line 75 lets modify the preview window to be like this `window=(100,100,1024,768)`. Keep in mind with the `framerate` set to `10` you will need to let the camera point at an object for a bit longer for it to categorize the object. Save the script. As before, copy and paste (or hit the up arrow in the terminal window) the following code and hit `ctrl + c` to stop the camera.
+
+```
+python3 classify_picamera.py \
+  --model ~/models/mobilenet_v1_1.0_224_quant.tflite \
+  --labels ~/models/labels_mobilenet_quant_v1_224.txt
+```
+
+14. We're going to now modify to save every unique picture that we capture to a special folder. Add a new line below 90. We are going to use the [capture](https://picamera.readthedocs.io/en/release-1.10/api_camera.html#picamera.camera.PiCamera.capture) methord to save a picture and give it the label of what it classifed.
+`camera.capture('/home/pi/Desktop/gcl/captured-%s.jpeg' % labels[label_id])`. Save the script. As before, copy and paste (or hit the up arrow in the terminal window) the following code and hit `ctrl + c` to stop the camera. You can let the camera run for a bit, pointing at other objects.
+
+```
+python3 classify_picamera.py \
+  --model ~/models/mobilenet_v1_1.0_224_quant.tflite \
+  --labels ~/models/labels_mobilenet_quant_v1_224.txt
+```
+
+15. Click the folder icon. When it opens select Desktop and then gcl folder. Inside this folder you can see your pictures, one for each of the items your classified.
+![folder icon](https://i.imgur.com/T6bC2Is.png)
+
+
+## Lesson 8 - Object Detection
+Object detection is the ability to detect multiple things inside an image, not just the 'main' image classification as we did before. Image detection is useful in the context of self driving cars for example to detect a car versus a bike versus a street sign. In this lesson we're going to use a neural network and our raspberry pi to setup a simply image detection program.
+
+Note: We'll be using the Python programming language which is _space sensitive_. Be careful when modifying the scripts you don't remove or add additional spaces!
+
+1. Log onto your raspberry by with Real Vnc. If it isnt installed already you can [download it here](https://www.realvnc.com/en/connect/download/viewer/)
+
+2. Open the terminal window by clicking on the terminal icon
+![terminal icon](https://i.imgur.com/wiFSDEl.png)
+
+3. Type or copy and paste in `bash examples/lite/examples/object_detection/raspberry_pi/download.sh ~/models`. This command executes the `download.sh` script which downloads the prebuilt training models to the directory `models` in your pi's home directory.
+
+4. We're going to create a copy of the example script so we can modify it ourselves, like we did in Lesson 7.  Type in the following command to copy that script to your local directory `cp examples/lite/examples/object_detection/raspberry_pi/*.py ~`
+
+5. Now let's run the object classification program as is. Copy & paste the following into the terminal. Move the cameraaround and note how it's classifying various objects. Hit `ctrl + c` to stop the program.
+```
+python3 detect_picamera.py   --model ~/models/detect.tflite   --labels ~/models/coco_labels.txt
+```
+
+6. Open up Mu by clicking on the raspberry icon then going to programming and then mu.
+
+7. Select Python 3 if prompted for programing mode.
+
+8. Click Load at the top and then on the left hand side click `pi`. Scroll down and select `detect_picamera.py` and click `open`.
+
+9. Scroll down to line 35 and lets modify the `CAMERA_WIDTH` AND `CAMERA_HEIGHT` variables and see if the higher resolution helps the raspberry PI detect the objects better. Set `CAMERA_WIDTH` equal to `1024` and `CAMERA_HEIGHT` TO `768`. Scroll down to line 128 and set the `framerate` to `15`. Save the script.
+
+ As before, you can type the following command in to run or hit up arrow in your terminal and then enter. Press `ctrl + c` to quit. Is the camera better at detecting images with the higher resolution?
+
+```
+python3 detect_picamera.py   --model ~/models/detect.tflite   --labels ~/models/coco_labels.txt
+```
+
+10. Unfortunately our raspberry PIs can't run at their maxium camera resolution - they'll run out of memory! Set `CAMERA_WIDTH` equal to `1920` and `CAMERA_HEIGHT` TO `1280`. Scroll down to line 128 and set the `framerate` to `5`.  As before, you can type the following command in to run or hit up arrow in your terminal and then enter. Press `ctrl + c` to quit. 
+
+```
+python3 detect_picamera.py   --model ~/models/detect.tflite   --labels ~/models/coco_labels.txt
+```
+
+11. We should capture some images and examples of its classification. Add a new line right after line 132. This line shoudl have `lastResults = 0` in it. we're declaring the variable `lastResults` and setting its initial value to `0`. Pay attention to spacing! Python is a case sensitive language.
+![example](https://i.imgur.com/falen0y.png)
+
+12. Add a new line after line 146. We're going to add an if statement that says if the length of the results is different than the last time the classification ran save the picture to our `gcl` folder. The 2 lines of code to do this are below:
+```
+        if len(results) != lastResults:
+            camera.capture('/home/pi/Desktop/gcl/detection-%s.jpeg' % len(results))
+```
+![examplex2](https://i.imgur.com/pPwm3m3.png)
+
+12. Lets run our program. Point the camera at different objects to capture some results. As before, you can type the following command in to run or hit up arrow in your terminal and then enter. Press `ctrl + c` to quit. 
+
+```
+python3 detect_picamera.py   --model ~/models/detect.tflite   --labels ~/models/coco_labels.txt
+```
+
+13. Click the folder icon. When it opens select Desktop and then gcl folder. Inside this folder you can see your pictures, one for each of the items your classified.
+![folder icon](https://i.imgur.com/T6bC2Is.png)
