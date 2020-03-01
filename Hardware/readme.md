@@ -743,17 +743,30 @@ for i in range(1,10):
 
 4. The `for i in range(1,10)` is a `for` loop in Python. Like in other languages it means for each value of the range - 1 to 10 in this case - execute the code below it one time and use the variable `i` to keep track of which value in the range we're currently executing.
 
-4. Change the color of the countdown to be your favorite color and run the program again (????)
-
-5. Update the countdown time to go from 60 to 0 and click run.
-
-6. The LED has a total of 64 pixels. Lets shut them off one by one. Copy & paste the following code & click run. 
+5. Change the color of the countdown to be your favorite color and run the program again.
 
 ```
-
+from sense_hat import SenseHat
+sense = SenseHat()
+red = (255,0,0)
+for i in range(1,10):
+  sense.show_letter(str(i), text_colour=red)
+  sleep(1)
 ```
 
-7. Alter the code in step 7 so as we shut off the pixels the remaining ones change color (????)
+6. Update the countdown time to go from 60 to 0 and click run.
+
+7. The LED has a total of 64 pixels. Lets turn each of them on as we go through our loop. Copy & paste the following code & click run. 
+
+```
+from sense_hat import SenseHat
+sense = SenseHat()
+blue = (0,0,255)
+for i in range(1,10):
+  sense.set_pixel(i, i, blue)
+  sleep(1)
+```
+
 
 ### Lesson 11 - SenseHat Using the Sensors
 
@@ -787,12 +800,7 @@ print(pressure)
   print(temp)
 ```
 
-5. We can change the format of the temperature to Fahrenheit by (????) and we can add a while loop to print out the current temperature every `2` seconds. Add the following code and try covering your pi with your hand or piece of clothing like your jacket. It should increase in temeprature.
-
-```
-```
-
-6. Your PI can also sense the humidity. Erase step 4 and we can add this code to directly sense the current humidity of the environment.
+5. Your PI can also sense the humidity. Erase step 4 and we can add this code to directly sense the current humidity of the environment.
 
 ```
 from sense_hat import SenseHat
@@ -804,15 +812,54 @@ humidity = sense.get_humidity()
 print(humidity)
 ```
 
-7. Lets out the temperature, pressure, and humidity to the display using what we learned in lesson 9. Modify the program to ouput the results using whatever your favorite color is. (????)
+6. Lets out the temperature, pressure, and humidity to the display using what we learned in lesson 9. Modify the program to ouput the results using whatever your favorite color is. (????)
+
+```
+  from sense_hat import SenseHat
+
+  sense = SenseHat()
+  sense.clear()
+  temp = round(sense.get_temperature(),1)
+  humidity = round(sense.get_humidity(),1)
+  pressure = round(sense.get_pressure(),1)
+
+  sense.show_message("Temp: %s Humidity: %s Pressure: %s " %(str(temp),str(humidity),str(pressure)))
 
 ```
 
-```
-
-8. We can also set alerts for if the temperature exceeds a certain value. By adding a conditional we can change the color if the temperature or pressure exceeds a certain limit. Add the following line (????) of code to change the color to your preference. In this code we'll change it so the if the temperature is above `16` celsius (about 62 Fahrenheit) it'll change the color green on our scrolling display.
+7. We can also set alerts for if the temperature exceeds a certain value. By adding a conditional we can change the color if the temperature or pressure exceeds a certain limit. Add the following line (????) of code to change the color to your preference. In this code we'll change it so as long as the temperature is between 18 and 26 C the temperature is displayed in green on the screen.
 
 ```
+from sense_hat import SenseHat
+sense = SenseHat()
+
+# Define the colours red and green
+red = (255, 0, 0)
+green = (0, 255, 0)
+
+while True:
+
+  # Take readings from all three sensors
+  t = sense.get_temperature()
+  p = sense.get_pressure()
+  h = sense.get_humidity()
+
+  # Round the values to one decimal place
+  t = round(t, 1)
+  p = round(p, 1)
+  h = round(h, 1)
+  
+  # Create the message
+  message = "Temperature: " + str(t) + " Pressure: " + str(p) + " Humidity: " + str(h)
+  
+  if t > 18 and t < 26:
+    bg = green
+  else:
+    bg = red
+  
+  # Display the scrolling message
+  sense.show_message(message, scroll_speed=0.05, back_colour=bg)
+
 ```
 
 
@@ -846,10 +893,61 @@ print("pitch {0} roll {1} yaw {2}".format(pitch, roll, yaw))
 
 5. While the program is still running try changing the direction of your raspberry pi and moving it around. Note how the values of pitch, roll, and yaw change as you move your Pi.
 
-6. Your Pi is able to measure the acceleration in any axis as well. You can think of acceleration as the force you feel when a car starts moving forward or on a roller coaster as you plummet down. The Pi measures acceleration in terms of `G` where `1G` equals the acceleration due ot gravity at sea level - 9.8 m/s^2 or roughly 35 mph (???). We can detect the current acceleration by using the `get_accelerometer_raw` value. Copy & paste the following code in to Mu and click run. Rotate your raspberry PI and note how the value changes. (????)
+6. Your Pi is able to measure the acceleration in any axis as well. You can think of acceleration as the force you feel when a car starts moving forward or on a roller coaster as you plummet down. The Pi measures acceleration in terms of `G` where `1G` equals the acceleration due ot gravity at sea level - 9.8 m/s^2 or roughly 35 mph (???). We can detect the current acceleration by using the `get_accelerometer_raw` value. Copy & paste the following code in to Mu and click run. Rotate your raspberry PI and note how the value changes. 
 
 ```
+from sense_hat import SenseHat
 
+sense = SenseHat()
+
+while True:
+	acceleration = sense.get_accelerometer_raw()
+	x = acceleration['x']
+	y = acceleration['y']
+	z = acceleration['z']
+
+	x=round(x, 0)
+	y=round(y, 0)
+	z=round(z, 0)
+
+	print("x={0}, y={1}, z={2}".format(x, y, z))
+```
+
+7. Similar to a cell phone we can use the sensor to detect the orientation of the raspberry pi and flip the screen. Stop the code from the above example, paste the code below and rotate the pi around. Note how the value on the screen changes.
+
+```
+from sense_hat import SenseHat
+
+sense = SenseHat()
+
+# Display the letter J
+sense.show_letter("J")
+
+while True:
+	acceleration = sense.get_accelerometer_raw()
+	x = acceleration['x']
+	y = acceleration['y']
+	z = acceleration['z']
+
+	x=round(x, 0)
+	y=round(y, 0)
+	z=round(z, 0)
+	
+	print("x={0}, y={1}, z={2}".format(x, y, z))
+
+  # Update the rotation of the display depending on which way up the Sense HAT is
+	if x  == -1:
+	  sense.set_rotation(180)
+    sense.show_message("Rotated 180")
+	elif y == 1:
+	  sense.set_rotation(90)
+    sense.show_message("Rotated 90")
+	elif y == -1:
+	  sense.set_rotation(270)
+    sense.show_message("Rotated 270")
+	else:
+    sense.show_message("Rotated 0")
+	  sense.set_rotation(0)
 ```
 
 7. It's difficult to get a high value while slowly rotating the board but what if we shake the board? Lets make a program that outputs the value of the accelerometer onto the LED screen and changes the color if it exceeds `1G`. Erase the code from the previous examples and copy & paste the code below and click run. Shake your raspberry pi and note when it changes colors.
@@ -864,8 +962,8 @@ red = (255, 0, 0)
 while True:
     acceleration = sense.get_accelerometer_raw()
     x = acceleration['x']
-	y = acceleration['y']
-	z = acceleration['z']
+	  y = acceleration['y']
+	  z = acceleration['z']
 
     x = abs(x)
     y = abs(y)
@@ -879,10 +977,29 @@ while True:
 
 8. Lets have it print something better than `!` on the pixel screen. Alter the code from step 7 to display `Shake it off` instead of `!` when the acceleration exceeds 1G and test it out.
 
-9. We can also have the Sensehat output hte current acceleration values to the LED screen. Use the code below to display the roll, pitch, and yaw to the LED screen and change the colors to your favorite.
+9. We can also have the Sensehat output the current acceleration values to the LED screen. Use the code below to display the roll, pitch, and yaw to the LED screen and change the colors to your favorite.
 
 ```
+from sense_hat import SenseHat
 
+sense = SenseHat()
+
+red = (255, 0, 0)
+
+while True:
+    acceleration = sense.get_accelerometer_raw()
+    x = acceleration['x']
+	  y = acceleration['y']
+	  z = acceleration['z']
+
+    x = abs(x)
+    y = abs(y)
+    z = abs(z)
+
+    if x > 1 or y > 1 or z > 1:
+        sense.show_message("X: %s, Y: %s, Z: %s" % (str(x),str(y),str(z)))
+    else:
+        sense.clear()
 ```
 
 10. Hold the raspberry pi and get _only_ the `yaw` to change. Do the same for `roll` and `pitch`.
