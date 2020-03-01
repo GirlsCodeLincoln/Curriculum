@@ -979,7 +979,7 @@ while True:
 
 9. Lets have it print something better than `!` on the pixel screen. Alter the code from step 7 to display `Shake it off` instead of `!` when the acceleration exceeds 1G and test it out.
 
-9. We can also have the Sensehat output the current acceleration values to the LED screen. Use the code below to display the roll, pitch, and yaw to the LED screen and change the colors to your favorite.
+10. We can also have the Sensehat output the current acceleration values to the LED screen. Use the code below to display the roll, pitch, and yaw to the LED screen and change the colors to your favorite.
 
 ```
 from sense_hat import SenseHat
@@ -1005,4 +1005,4 @@ while True:
 
 ```
 
-10. Hold the raspberry pi and get _only_ the `yaw` to change. Do the same for `roll` and `pitch`.
+11. Hold the raspberry pi and get _only_ the `yaw` to change. Do the same for `roll` and `pitch`.
