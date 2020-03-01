@@ -963,8 +963,8 @@ red = (255, 0, 0)
 while True:
     acceleration = sense.get_accelerometer_raw()
     x = acceleration['x']
-	y = acceleration['y']
-	z = acceleration['z']
+    y = acceleration['y']
+    z = acceleration['z']
 
     x = abs(x)
     y = abs(y)
@@ -974,9 +974,10 @@ while True:
         sense.show_letter("!", red)
     else:
         sense.clear()
+
 ```
 
-8. Lets have it print something better than `!` on the pixel screen. Alter the code from step 7 to display `Shake it off` instead of `!` when the acceleration exceeds 1G and test it out.
+9. Lets have it print something better than `!` on the pixel screen. Alter the code from step 7 to display `Shake it off` instead of `!` when the acceleration exceeds 1G and test it out.
 
 9. We can also have the Sensehat output the current acceleration values to the LED screen. Use the code below to display the roll, pitch, and yaw to the LED screen and change the colors to your favorite.
 
