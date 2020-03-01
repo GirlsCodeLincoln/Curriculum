@@ -595,11 +595,14 @@ python3 detect_picamera.py   --model ~/models/detect.tflite   --labels ~/models/
 
 In this lesson we're going to install the Raspberry PI's [Sensehat](https://www.raspberrypi.org/products/sense-hat/) module. This module was built for the [Astro Pi](https://astro-pi.org/) mission to the International Space Station. It includes a number of sensors and lights we'll use throughout the rest of the semester.
 
-1. Unpack your Sensehat. (????)
+1. Unpack your Sensehat. 
+![unpack](https://i.imgur.com/WsQ0btS.png)
+![sensehat](https://i.imgur.com/he7YMgr.png)
 
-2. Remove the upper portion of your Raspberry PI's case. (????)
+2. Remove the upper portion of your Raspberry PI's case. 
 
-3. Push the Sensehat carefully onto the pins on the Raspberry Pi (????)
+3. Push the Sensehat carefully onto the pins on the Raspberry Pi 
+![attached sensehat](https://i.imgur.com/b2JE9kr.png)
 
 4. Start up your Raspberry Pi by plugging in the power.
 
@@ -608,14 +611,14 @@ In this lesson we're going to install the Raspberry PI's [Sensehat](https://www.
 6. Open the terminal window by clicking on the terminal icon
 ![terminal icon](https://i.imgur.com/wiFSDEl.png)
 
-7. Type in or copy & paste the following `sudo apt-get update && apt-get install -y sense-hat` and press enter.
+7. Type in or copy & paste the following `sudo apt-get update && sudo apt-get install -y sense-hat` and press enter.
 
 8. Once it has finished installing you can close the terminal window.
 
 9. Select Programming and then `Mu` and click OK
 ![mu selected](https://i.imgur.com/E9f65F0.png)
 
-10. Type or paste the following text and click Run.
+10. Type or paste the following text. Click save and save it as `sensehat.py`. once saved click Run.
 
 ```
 from sense_hat import SenseHat
