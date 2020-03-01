@@ -943,19 +943,15 @@ while True:
   # Update the rotation of the display depending on which way up the Sense HAT is
 	if x  == -1:
 	  sense.set_rotation(180)
-    sense.show_message("Rotated 180")
 	elif y == 1:
 	  sense.set_rotation(90)
-    sense.show_message("Rotated 90")
 	elif y == -1:
 	  sense.set_rotation(270)
-    sense.show_message("Rotated 270")
 	else:
-    sense.show_message("Rotated 0")
 	  sense.set_rotation(0)
 ```
 
-7. It's difficult to get a high value while slowly rotating the board but what if we shake the board? Lets make a program that outputs the value of the accelerometer onto the LED screen and changes the color if it exceeds `1G`. Erase the code from the previous examples and copy & paste the code below and click run. Shake your raspberry pi and note when it changes colors.
+8. It's difficult to get a high value while slowly rotating the board but what if we shake the board? Lets make a program that outputs the value of the accelerometer onto the LED screen and changes the color if it exceeds `1G`. Erase the code from the previous examples and copy & paste the code below and click run. Shake your raspberry pi and note when it changes colors.
 
 ```
 from sense_hat import SenseHat
