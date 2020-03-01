@@ -753,7 +753,7 @@ import time
 from sense_hat import SenseHat
 sense = SenseHat()
 red = (255,0,0)
-for i in range(1,10):
+for i in range(0,7):
   sense.show_letter(str(i), text_colour=red)
   time.sleep(1)
 ```
