@@ -990,17 +990,18 @@ red = (255, 0, 0)
 while True:
     acceleration = sense.get_accelerometer_raw()
     x = acceleration['x']
-	y = acceleration['y']
-	z = acceleration['z']
+    y = acceleration['y']
+    z = acceleration['z']
 
     x = abs(x)
     y = abs(y)
     z = abs(z)
 
     if x > 1 or y > 1 or z > 1:
-        sense.show_message("X: %s, Y: %s, Z: %s" % (str(x),str(y),str(z)))
+        sense.show_message("X: %s, Y: %s, Z: %s" % (str(x), str(y), str(z)))
     else:
         sense.clear()
+
 ```
 
 10. Hold the raspberry pi and get _only_ the `yaw` to change. Do the same for `roll` and `pitch`.
