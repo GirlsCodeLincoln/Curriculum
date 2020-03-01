@@ -2,7 +2,7 @@
 
 This semester we're going to use [Raspberry Pis](https://www.raspberrypi.org/) to do a number of projects this semester using the Raspberry Pi's Camera, Python machine learning for image classification, and the sensehat module.
 
-Many of the lessons are based off material found from the [raspberry pi projects](https://projects.raspberrypi.org/en/projects/).
+Many of the lessons are based off material found from the [raspberry pi projects](https://projects.raspberrypi.org/en/projects/) and licensed under a [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) license.
 
 
 ## Lecture 1 - A brief history of the Raspberry PI
@@ -610,7 +610,7 @@ In this lesson we're going to install the Raspberry PI's [Sensehat](https://www.
 
 7. Type in or copy & paste the following `sudo apt-get update && apt-get install -y sense-hat` and press enter.
 
-8. Once it has finished close the terminal window.
+8. Once it has finished installing you can close the terminal window.
 
 9. Select Programming and then `Mu` and click OK
 ![mu selected](https://i.imgur.com/E9f65F0.png)
