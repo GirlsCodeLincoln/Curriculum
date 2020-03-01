@@ -625,7 +625,7 @@ sense.show_message("Hello Girls Code Lincoln!")
 
 11. You should see the message scroll across the LED screen. Change the text in between the quotes in the `show_message` method to display different messages.
 
-12. Let's alter the color and scroll speed by adding some additional parameters to the `show_message` method.  We can change the color as well by passing in special values representing Red, Green, & Blue. Stop the program running and alter the code above to add the `red` variable with the numnbers `(255,0,0)` which represent the color red.
+12. Let's alter the color and scroll speed by adding some additional parameters to the `show_message` method.  We can change the color as well by passing in special values representing Red, Green, & Blue. Stop the program running and alter the code above to add the `red` variable with the numbers `(255,0,0)` which represent the color red.
 
 ```
 from sense_hat import SenseHat
@@ -634,7 +634,9 @@ red = (255,0,0)
 sense.show_message("Hello Girls Code Lincoln!", text_colour=red)
 ```
 
-13. We can also change the `back_color` of the LED as well by adding in a new parameter to `show_message` called `back_color`. Stop the program above and update it as show below. Click run when finished. 
+13. There are more colors available - you can use [this color picker](https://www.w3schools.com/colors/colors_rgb.asp) to get the values to use for `red`, `green`, and `blue` and use in the above code to set different color values.
+
+14. We can also change the `back_color` of the LED as well by adding in a new parameter to `show_message` called `back_color`. Stop the program above and update it as show below. Click run when finished. 
 
 ```
 from sense_hat import SenseHat
@@ -644,7 +646,7 @@ white = (255,255,255)
 sense.show_message("Hello Girls Code Lincoln!", text_colour=red, back_colour=white)
 ```
 
-14. Lets try changing the colors. As you have seen in the steps above the colors are represented as a `list` that loosk like `(255,255,0)`. On the Sensehat each of three numbers are used to represent red, green, & blue. Each of these color values is assigned a value between 0 and 255. By mixing and matching the values we can have different colors. For instance, to display nothing but Yellow copy & paste the following code below and click Run.
+15. Lets try changing the colors. As you have seen in the steps above the colors are represented as a `list` that loosk like `(255,255,0)`. On the Sensehat each of three numbers are used to represent red, green, & blue. Each of these color values is assigned a value between 0 and 255. By mixing and matching the values we can have different colors. For instance, to display nothing but Yellow copy & paste the following code below and click Run.
 
 ```
 from sense_hat import SenseHat
@@ -658,8 +660,7 @@ blue = 0
 sense.clear((red, green, blue))
 ```
 
-
-15.  We can also directly controlthe LED pixels on the Sensehat as well by directly setting them. Each Pixel is numbered using a x,y access from the top left starting at 0. Enter the following code to turn the pixels different colors and click run.
+16.  We can also directly control the LED pixels on the Sensehat as well. Each sensehat pixel is numbered using a x,y axis from the top left starting at 0. There are `8` pixels on the sensehat in each direction. Enter the following code to turn specific pixels different colors and click run.
 
 ```
 from sense_hat import SenseHat
@@ -676,28 +677,71 @@ sense.set_pixel(4, 4, white)
 
 ```
 
-16. Try changing the first two parameters of `set_pixel` to move the LED that you light up around. Remember, a valid value is between `0` and `7` as the Sensehat is an 8 by 8 grid and the numbering system starts with `0`.
+17. Try changing the first two parameters of `set_pixel` to move the LED that you light up around. Remember, a valid value is between `0` and `7` as the Sensehat is an 8 by 8 grid and the numbering system starts with `0`.
 
-17. We can also set multiple pixels on the sensehat directly.
+18. We can also set multiple pixels on the sensehat directly using the `set_pixels` method. Stop the program running above. Copy & paste the code below and click run. It should disply a question mark on the sensehat.
 
-18. There are more colors available - you can use [this color picker](https://www.w3schools.com/colors/colors_rgb.asp) to get the values to use for `red`, `green`, and `blue` and use in the above code to set different color values.
+```
+from sense_hat import SenseHat
+sense = SenseHat()
+X = [255, 0, 0]  # Red - feel free to change to your favorite color 
+O = [255, 255, 255]  # White - feel free to change the color!
 
-18. We can also flip the orientation of the LED lights by using `set_rotation` (????)
+question_mark = [
+O, O, O, X, X, O, O, O,
+O, O, X, O, O, X, O, O,
+O, O, O, O, O, X, O, O,
+O, O, O, O, X, O, O, O,
+O, O, O, X, O, O, O, O,
+O, O, O, X, O, O, O, O,
+O, O, O, O, O, O, O, O,
+O, O, O, X, O, O, O, O
+]
+sense.set_pixels(question_mark)
+```
+
+19. We can also flip the orientation of the LED lights by using `set_rotation`. Lets turn our question_mark upside down:
+
+```
+from sense_hat import SenseHat
+sense = SenseHat()
+X = [255, 0, 0]  # Red - feel free to change to your favorite color 
+O = [255, 255, 255]  # White - feel free to change the color!
+
+question_mark = [
+O, O, O, X, X, O, O, O,
+O, O, X, O, O, X, O, O,
+O, O, O, O, O, X, O, O,
+O, O, O, O, X, O, O, O,
+O, O, O, X, O, O, O, O,
+O, O, O, X, O, O, O, O,
+O, O, O, O, O, O, O, O,
+O, O, O, X, O, O, O, O
+] 
+sense.set_pixels(question_mark)
+sense.set_rotation(180)
+```
 
 ### Lesson 10 - Sensehat Countdown Timer
 
-We're going to modify the LED to display a countdown timer.
+We're going to modify the LED to display a countdown timer and learn a little bit about Python loops in the process.
 
 1. Log onto your raspberry by with Real Vnc. If it isnt installed already you can [download it here](https://www.realvnc.com/en/connect/download/viewer/)
 
 2.  Select Programming and then `Mu` and click OK
 ![mu selected](https://i.imgur.com/E9f65F0.png)
 
-3. Add the following code to countdown from 10 to 0 into Mu and click run (????)
+3. Add the following code to countdown from 10 to 0 into Mu and click run.
 
 ```
-
+from sense_hat import SenseHat
+sense = SenseHat()
+for i in range(1,10):
+  sense.show_letter(str(i))
+  sleep(1)
 ```
+
+4. The `for i in range(1,10)` is a `for` loop in Python. Like in other languages it means for each value of the range - 1 to 10 in this case - execute the code below it one time and use the variable `i` to keep track of which value in the range we're currently executing.
 
 4. Change the color of the countdown to be your favorite color and run the program again (????)
 
