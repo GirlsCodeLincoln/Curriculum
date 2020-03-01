@@ -601,9 +601,9 @@ In this lesson we're going to install the Raspberry PI's [Sensehat](https://www.
 
 3. Push the Sensehat carefully onto the pins on the Raspberry Pi (????)
 
-4. Start up your Raspberry Pi.
+4. Start up your Raspberry Pi by plugging in the power.
 
-5. Log onto your raspberry by with Real Vnc. If it isnt installed already you can [download it here](https://www.realvnc.com/en/connect/download/viewer/)
+5. Log onto your raspberry by with Real Vnc. If it isn't installed already you can [download it here](https://www.realvnc.com/en/connect/download/viewer/)
 
 6. Open the terminal window by clicking on the terminal icon
 ![terminal icon](https://i.imgur.com/wiFSDEl.png)
@@ -623,17 +623,28 @@ sense = SenseHat()
 sense.show_message("Hello Girls Code Lincoln!")
 ```
 
-11. You should seel the message scroll across the LED screen. Change the text in between the quotes to display different messages.
+11. You should see the message scroll across the LED screen. Change the text in between the quotes in the `show_message` method to display different messages.
 
-12. Let's alter the color and scroll speed by adding some additional parameters to the `show_message` method.  We can change the color as well by passing in special values representing Red, Green, & Blue. Try this to turn your message purple: (????)
+12. Let's alter the color and scroll speed by adding some additional parameters to the `show_message` method.  We can change the color as well by passing in special values representing Red, Green, & Blue. Stop the program running and alter the code above to add the `red` variable with the numnbers `(255,0,0)` which represent the color red.
 
-13. We can also change the `back_color` as well by altering it: (????)
+```
+from sense_hat import SenseHat
+sense = SenseHat()
+red = (255,0,0)
+sense.show_message("Hello Girls Code Lincoln!", text_colour=red)
+```
 
-14. We can control directly the LED pixels on the Sensehat as well by directly setting them. Each Pixel is numbered using a x,y access from the top left starting at 0. Enter the following code to turn the pixels different colors (????)
+13. We can also change the `back_color` of the LED as well by adding in a new parameter to `show_message` called `back_color`. Stop the program above and update it as show below. Click run when finished. 
 
-15. We can also set multiple pixels on the sensehat directly (????)
+```
+from sense_hat import SenseHat
+sense = SenseHat()
+red = (255,0,0)
+white = (255,255,255)
+sense.show_message("Hello Girls Code Lincoln!", text_colour=red, back_colour=white)
+```
 
-16. Lets try changing the colors. On the Sensehat three numbers are used to represent red, green, & blue. Each of these color values is assigned a value between 0 and 255. By mixing and matching the values we can have different colors. For instance, to display nothing but Yellow copy & paste the following code below and click Run.
+14. Lets try changing the colors. As you have seen in the steps above the colors are represented as a `list` that loosk like `(255,255,0)`. On the Sensehat each of three numbers are used to represent red, green, & blue. Each of these color values is assigned a value between 0 and 255. By mixing and matching the values we can have different colors. For instance, to display nothing but Yellow copy & paste the following code below and click Run.
 
 ```
 from sense_hat import SenseHat
@@ -647,7 +658,29 @@ blue = 0
 sense.clear((red, green, blue))
 ```
 
-17. There are more colors available - you can use [this color picker](https://www.w3schools.com/colors/colors_rgb.asp) to get the values to use for `red`, `green`, and `blue` and use in the above code. 
+
+15.  We can also directly controlthe LED pixels on the Sensehat as well by directly setting them. Each Pixel is numbered using a x,y access from the top left starting at 0. Enter the following code to turn the pixels different colors and click run.
+
+```
+from sense_hat import SenseHat
+sense = SenseHat()
+red = (255,0,0)
+green = (0,255,0)
+blue = (0,0,255)
+white = (255,255,255)
+
+sense.set_pixel(0, 0, red)
+sense.set_pixel(0, 7, green)
+sense.set_pixel(7, 0, blue)
+sense.set_pixel(4, 4, white)
+
+```
+
+16. Try changing the first two parameters of `set_pixel` to move the LED that you light up around. Remember, a valid value is between `0` and `7` as the Sensehat is an 8 by 8 grid and the numbering system starts with `0`.
+
+17. We can also set multiple pixels on the sensehat directly.
+
+18. There are more colors available - you can use [this color picker](https://www.w3schools.com/colors/colors_rgb.asp) to get the values to use for `red`, `green`, and `blue` and use in the above code to set different color values.
 
 18. We can also flip the orientation of the LED lights by using `set_rotation` (????)
 
@@ -687,7 +720,7 @@ You sensehat comes with a number of built in sensors. Temperature, pressure,humi
 2.  Select Programming and then `Mu` and click OK
 ![mu selected](https://i.imgur.com/E9f65F0.png)
 
-3. First lets measure the ambient air pressure. Copy & paste the following code & click run. Pressure lets us easily detect changing weather conditions.
+3. First lets measure the ambient air pressure. Copy & paste the following code & click run. Pressure lets us easily detect changing weather conditions. 
 ```
 from sense_hat import SenseHat
 
@@ -698,7 +731,7 @@ pressure = sense.get_pressure()
 print(pressure)
 ```
 
-4. Now lets detect the temperature. Erase what you had entered in step 3. Copy & paste the following code and click run. This will tell us the current temperature in Celsius.
+4. Now lets detect the temperature. Erase what you had entered in step 3. Copy & paste the following code and click run. This will tell us the current temperature in Celsius. 
 
 ```
   from sense_hat import SenseHat
@@ -710,7 +743,10 @@ print(pressure)
   print(temp)
 ```
 
-5. We can change the format of the temperature to Fahrenheit by (????)
+5. We can change the format of the temperature to Fahrenheit by (????) and we can add a while loop to print out the current temperature every `2` seconds. Add the following code and try covering your pi with your hand or piece of clothing like your jacket. It should increase in temeprature.
+
+```
+```
 
 6. Your PI can also sense the humidity. Erase step 4 and we can add this code to directly sense the current humidity of the environment.
 
