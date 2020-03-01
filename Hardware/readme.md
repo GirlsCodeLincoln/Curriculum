@@ -1,9 +1,9 @@
 # Overview
 
-This semester we're going to use [Raspberry Pis](https://www.raspberrypi.org/) to do the following projects this semester.
+This semester we're going to use [Raspberry Pis](https://www.raspberrypi.org/) to do a number of projects this semester using the Raspberry Pi's Camera, Python machine learning for image classification, and the sensehat module.
 
-* A Retro gaming computer.
-* A music streaming service.
+Many of the lessons are based off material found from the [raspberry pi projects](https://projects.raspberrypi.org/en/projects/).
+
 
 ## Lecture 1 - A brief history of the Raspberry PI
 
@@ -590,3 +590,219 @@ python3 detect_picamera.py   --model ~/models/detect.tflite   --labels ~/models/
 
 13. Click the folder icon. When it opens select Desktop and then gcl folder. Inside this folder you can see your pictures, one for each of the items your classified.
 ![folder icon](https://i.imgur.com/T6bC2Is.png)
+
+### Lesson 9 - SenseHat Fun With Pixels
+
+In this lesson we're going to install the Raspberry PI's [Sensehat](https://www.raspberrypi.org/products/sense-hat/) module. This module was built for the [Astro Pi](https://astro-pi.org/) mission to the International Space Station. It includes a number of sensors and lights we'll use throughout the rest of the semester.
+
+1. Unpack your Sensehat. (????)
+
+2. Remove the upper portion of your Raspberry PI's case. (????)
+
+3. Push the Sensehat carefully onto the pins on the Raspberry Pi (????)
+
+4. Start up your Raspberry Pi.
+
+5. Log onto your raspberry by with Real Vnc. If it isnt installed already you can [download it here](https://www.realvnc.com/en/connect/download/viewer/)
+
+6. Open the terminal window by clicking on the terminal icon
+![terminal icon](https://i.imgur.com/wiFSDEl.png)
+
+7. Type in or copy & paste the following `sudo apt-get update && apt-get install -y sense-hat` and press enter.
+
+8. Once it has finished close the terminal window.
+
+9. Select Programming and then `Mu` and click OK
+![mu selected](https://i.imgur.com/E9f65F0.png)
+
+10. Type or paste the following text and click Run.
+
+```
+from sense_hat import SenseHat
+sense = SenseHat()
+sense.show_message("Hello Girls Code Lincoln!")
+```
+
+11. You should seel the message scroll across the LED screen. Change the text in between the quotes to display different messages.
+
+12. Let's alter the color and scroll speed by adding some additional parameters to the `show_message` method.  We can change the color as well by passing in special values representing Red, Green, & Blue. Try this to turn your message purple: (????)
+
+13. We can also change the `back_color` as well by altering it: (????)
+
+14. We can control directly the LED pixels on the Sensehat as well by directly setting them. Each Pixel is numbered using a x,y access from the top left starting at 0. Enter the following code to turn the pixels different colors (????)
+
+15. We can also set multiple pixels on the sensehat directly (????)
+
+16. Lets try changing the colors. On the Sensehat three numbers are used to represent red, green, & blue. Each of these color values is assigned a value between 0 and 255. By mixing and matching the values we can have different colors. For instance, to display nothing but Yellow copy & paste the following code below and click Run.
+
+```
+from sense_hat import SenseHat
+
+sense = SenseHat()
+
+red = 255
+green = 255
+blue = 0
+
+sense.clear((red, green, blue))
+```
+
+17. There are more colors available - you can use [this color picker](https://www.w3schools.com/colors/colors_rgb.asp) to get the values to use for `red`, `green`, and `blue` and use in the above code. 
+
+18. We can also flip the orientation of the LED lights by using `set_rotation` (????)
+
+### Lesson 10 - Sensehat Countdown Timer
+
+We're going to modify the LED to display a countdown timer.
+
+1. Log onto your raspberry by with Real Vnc. If it isnt installed already you can [download it here](https://www.realvnc.com/en/connect/download/viewer/)
+
+2.  Select Programming and then `Mu` and click OK
+![mu selected](https://i.imgur.com/E9f65F0.png)
+
+3. Add the following code to countdown from 10 to 0 into Mu and click run (????)
+
+```
+
+```
+
+4. Change the color of the countdown to be your favorite color and run the program again (????)
+
+5. Update the countdown time to go from 60 to 0 and click run.
+
+6. The LED has a total of 64 pixels. Lets shut them off one by one. Copy & paste the following code & click run. 
+
+```
+
+```
+
+7. Alter the code in step 7 so as we shut off the pixels the remaining ones change color (????)
+
+### Lesson 11 - SenseHat Using the Sensors
+
+You sensehat comes with a number of built in sensors. Temperature, pressure,humidity, orientation, a magnemetor and accelermetor. In this lesson we're going to learn about each of these sensors and what they do.
+
+1. Log onto your raspberry by with Real Vnc. If it isnt installed already you can [download it here](https://www.realvnc.com/en/connect/download/viewer/)
+
+2.  Select Programming and then `Mu` and click OK
+![mu selected](https://i.imgur.com/E9f65F0.png)
+
+3. First lets measure the ambient air pressure. Copy & paste the following code & click run. Pressure lets us easily detect changing weather conditions.
+```
+from sense_hat import SenseHat
+
+sense = SenseHat()
+sense.clear()
+
+pressure = sense.get_pressure()
+print(pressure)
+```
+
+4. Now lets detect the temperature. Erase what you had entered in step 3. Copy & paste the following code and click run. This will tell us the current temperature in Celsius.
+
+```
+  from sense_hat import SenseHat
+
+  sense = SenseHat()
+  sense.clear()
+
+  temp = sense.get_temperature()
+  print(temp)
+```
+
+5. We can change the format of the temperature to Fahrenheit by (????)
+
+6. Your PI can also sense the humidity. Erase step 4 and we can add this code to directly sense the current humidity of the environment.
+
+```
+from sense_hat import SenseHat
+
+sense = SenseHat()
+sense.clear()
+
+humidity = sense.get_humidity()
+print(humidity)
+```
+
+7. Lets out the temperature, pressure, and humidity to the display using what we learned in lesson 9. Modify the program to ouput the results using whatever your favorite color is. (????)
+
+```
+
+```
+
+8. We can also set alerts for if the temperature exceeds a certain value. By adding a conditional we can change the color if the temperature or pressure exceeds a certain limit. Add the following line (????) of code to change the color to your preference. In this code we'll change it so the if the temperature is above `16` celsius (about 62 Fahrenheit) it'll change the color green on our scrolling display.
+
+```
+```
+
+
+### Lesson 12 Sensehat movement and acceleration
+
+Your senshat has a number of sensors - like your phone - to detect movement. In this lesson we'll learn how the gyroscope, accelerometer, and magnetometer help us detect these changes.
+
+1. Log onto your raspberry by with Real Vnc. If it isnt installed already you can [download it here](https://www.realvnc.com/en/connect/download/viewer/)
+
+2.  Select Programming and then `Mu` and click OK
+![mu selected](https://i.imgur.com/E9f65F0.png)
+
+3. Your Sensehat can detect three types of motion - pitch, roll, and yaw. A simple explanation for these forces are:
+  * Pitch - Imagine driving up a steep hill.
+  * Roll - imagine rolling down a hill like a log.
+  * Yaw - Imagine steering a car.
+
+4. Lets detect the pitch, roll, and yaw of your raspberry pi. Copy & paste the following code into Mu and click run. (????)
+
+```
+from sense_hat import SenseHat
+sense = SenseHat()
+sense.clear()
+
+o = sense.get_orientation()
+pitch = o["pitch"]
+roll = o["roll"]
+yaw = o["yaw"]
+print("pitch {0} roll {1} yaw {2}".format(pitch, roll, yaw))
+```
+
+5. While the program is still running try changing the direction of your raspberry pi and moving it around. Note how the values of pitch, roll, and yaw change as you move your Pi.
+
+6. Your Pi is able to measure the acceleration in any axis as well. You can think of acceleration as the force you feel when a car starts moving forward or on a roller coaster as you plummet down. The Pi measures acceleration in terms of `G` where `1G` equals the acceleration due ot gravity at sea level - 9.8 m/s^2 or roughly 35 mph (???). We can detect the current acceleration by using the `get_accelerometer_raw` value. Copy & paste the following code in to Mu and click run. Rotate your raspberry PI and note how the value changes. (????)
+
+```
+
+```
+
+7. It's difficult to get a high value while slowly rotating the board but what if we shake the board? Lets make a program that outputs the value of the accelerometer onto the LED screen and changes the color if it exceeds `1G`. Erase the code from the previous examples and copy & paste the code below and click run. Shake your raspberry pi and note when it changes colors.
+
+```
+from sense_hat import SenseHat
+
+sense = SenseHat()
+
+red = (255, 0, 0)
+
+while True:
+    acceleration = sense.get_accelerometer_raw()
+    x = acceleration['x']
+	y = acceleration['y']
+	z = acceleration['z']
+
+    x = abs(x)
+    y = abs(y)
+    z = abs(z)
+
+    if x > 1 or y > 1 or z > 1:
+        sense.show_letter("!", red)
+    else:
+        sense.clear()
+```
+
+8. Lets have it print something better than `!` on the pixel screen. Alter the code from step 7 to display `Shake it off` instead of `!` when the acceleration exceeds 1G and test it out.
+
+9. We can also have the Sensehat output hte current acceleration values to the LED screen. Use the code below to display the roll, pitch, and yaw to the LED screen and change the colors to your favorite.
+
+```
+
+```
+
+10. Hold the raspberry pi and get _only_ the `yaw` to change. Do the same for `roll` and `pitch`.
