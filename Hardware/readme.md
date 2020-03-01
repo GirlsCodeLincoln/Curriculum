@@ -749,12 +749,13 @@ for i in range(1,10):
 5. Change the color of the countdown to be your favorite color and run the program again.
 
 ```
+import time
 from sense_hat import SenseHat
 sense = SenseHat()
 red = (255,0,0)
 for i in range(1,10):
   sense.show_letter(str(i), text_colour=red)
-  sleep(1)
+  time.sleep(1)
 ```
 
 6. Update the countdown time to go from 60 to 0 and click run.
@@ -762,12 +763,13 @@ for i in range(1,10):
 7. The LED has a total of 64 pixels. Lets turn each of them on as we go through our loop. Copy & paste the following code & click run. 
 
 ```
+import time
 from sense_hat import SenseHat
 sense = SenseHat()
 blue = (0,0,255)
 for i in range(1,10):
   sense.set_pixel(i, i, blue)
-  sleep(1)
+  time.sleep(1)
 ```
 
 
